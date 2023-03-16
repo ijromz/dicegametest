@@ -1,12 +1,14 @@
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.http import HttpResponse
+from .algo import Algo
 
 from .form import PlayerForm
 
 def app(request):
     form_disabled = False
     message = ""
+    algo = Algo()
    
     users_list = request.session.get('users_list', [])
 
@@ -34,6 +36,7 @@ def app(request):
         'users_list': users_list[:5],  # limit the list to 5 names maximum
         'form_disabled': form_disabled,
         'message': message,
+        'algo' : algo
     }
     return render(request, 'form.html', context)
 
