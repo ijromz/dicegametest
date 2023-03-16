@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Player Form</h1>
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+<form method="POST">
+    {% csrf_token %}
+    {{form_key.as_p }}
+    <input type="submit" value="submit" value="submit"{% if form_disabled %} disabled{% endif %}> 
+</form>
+
+{% if users_list %}
+<h2>Les joueurs :</h2>
+  <ul>
+    {% for name in users_list %}
+      <li>{{ name }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
+</body>
+</html>
