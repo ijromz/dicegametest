@@ -1,30 +1,43 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.template import loader
+from django.http import HttpResponse
+
 from .form import PlayerForm
 
-users_list = []
-
 def app(request):
+    form_disabled = False
+    message = ""
+   
+    users_list = request.session.get('users_list', [])
 
-    form_disabled = False  # initial value of form_disabled
-    if request.method == 'POST': 
+    if request.method == 'POST':
         form = PlayerForm(request.POST)
         if form.is_valid():
-            users_list.append(form.cleaned_data['name'])
-            if len(users_list) >= 5:  # check if number of names is greater than or equal to 5
-                form_disabled = True  # disable form if limit is reached
+            name = form.cleaned_data['name']
+            # check if the name is already in the users_list
+            if name not in users_list:
+                users_list.append(name)
+            request.session['users_list'] = users_list  # store the updated users_list in the session
+            # disable the form if the limit is reached or exceeded
+            form_disabled = len(users_list) >= 5
             form = PlayerForm()
         else:
+            form_disabled = False
             message = "Le formulaire est invalide"
     else:
+        form_disabled = False
         form = PlayerForm()
         message = ""
 
     context = {
         'form_key': form,
-        'users_list' : users_list,
-        'form_disabled': form_disabled  # add form_disabled to context
+        'users_list': users_list[:5],  # limit the list to 5 names maximum
+        'form_disabled': form_disabled,
+        'message': message,
     }
     return render(request, 'form.html', context)
 
+
+def reset(request):
+    request.session.clear()
+    return redirect('app')
