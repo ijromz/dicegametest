@@ -9,7 +9,11 @@
 <form method="POST">
     {% csrf_token %}
     {{form_key.as_p }}
-    <input type="submit" value="submit" value="submit"{% if form_disabled %} disabled{% endif %}> 
+    <input type="submit" value="submit" {% if form_disabled %} disabled{% endif %}>
+</form>
+<form method="POST" action="{% url 'reset' %}">
+    {% csrf_token %}
+    <input type="submit" value="Reset">
 </form>
 
 {% if users_list %}
@@ -20,7 +24,6 @@
     {% endfor %}
   </ul>
 {% endif %}
-
 
 </body>
 </html>
