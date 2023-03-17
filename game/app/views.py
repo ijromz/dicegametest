@@ -3,7 +3,6 @@ from django.template import loader
 from django.http import HttpResponse
 from .algo import Algo
 import random
-
 from .form import PlayerForm
 
 def app(request):
@@ -24,6 +23,7 @@ def app(request):
             # disable the form if the limit is reached or exceeded
             form_disabled = len(users_list) >= 5
             form = PlayerForm()
+            algo.PLAYERS = users_list
         else:
             form_disabled = False
             message = "Le formulaire est invalide"

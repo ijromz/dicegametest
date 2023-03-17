@@ -13,21 +13,25 @@ import random
 #   3 ace is scoring 1000 pts
 #   3 time the same dice value is scoring 100 pts x the dice value
 
-NB_DICE_SIDE = 6  # Nb of side of the Dices
-SCORING_DICE_VALUE = [1, 5]  # list_value of the side values of the dice who trigger a standard score
-SCORING_MULTIPLIER = [100, 50]  # list_value of multiplier for standard score
 
-THRESHOLD_BONUS = 3  # Threshold of the triggering for bonus in term of occurrence of the same slide value
-STD_BONUS_MULTIPLIER = 100  # Standard multiplier for bonus
-ACE_BONUS_MULTIPLIER = 1000  # Special multiplier for aces bonus
-
-DEFAULT_DICES_NB = 5  # Number of dices by default in the set
-
-PLAYERS = ["Jimy", "Lalita", "Ebonga"]
-NUMBER_OF_PLAYERS = len(PLAYERS)
-NUMBER_OF_TURNS = 3
 
 class Algo:
+  def __init__(self):
+    self.NB_DICE_SIDE = 6  # Nb of side of the Dices
+    self.SCORING_DICE_VALUE = [1, 5]  # list_value of the side values of the dice who trigger a standard score
+    self.SCORING_MULTIPLIER = [100, 50]  # list_value of multiplier for standard score
+
+    self.THRESHOLD_BONUS = 3  # Threshold of the triggering for bonus in term of occurrence of the same slide value
+    self.STD_BONUS_MULTIPLIER = 100  # Standard multiplier for bonus
+    self.ACE_BONUS_MULTIPLIER = 1000  # Special multiplier for aces bonus
+
+    self.DEFAULT_DICES_NB = 5  # Number of dices by default in the set
+
+    self.PLAYERS = []
+    self.NUMBER_OF_PLAYERS = len(self.PLAYERS)
+    self.NUMBER_OF_TURNS = 3
+
+
   def roll_dice_set(self, nb_dice_to_roll):
       """ Generate the occurrence list of dice value for nb_dice_to_roll throw
 
@@ -36,10 +40,10 @@ class Algo:
           :return:        occurrence list of dice value
       """
 
-      dice_value_occurrence = [0] * NB_DICE_SIDE
+      dice_value_occurrence = [0] * self.NB_DICE_SIDE
       dice_index = 0
       while dice_index < nb_dice_to_roll:
-          dice_value = random.randint(1, NB_DICE_SIDE)
+          dice_value = random.randint(1, self.NB_DICE_SIDE)
           dice_value_occurrence[dice_value - 1] += 1
           dice_index += 1
 
@@ -56,7 +60,7 @@ class Algo:
                           - 'scoring_dice'            occurrence list of scoring dice value
                           - 'non_scoring_dice'        occurrence list of non scoring dice value
       """
-      scoring_dice_value_occurrence = [0] * NB_DICE_SIDE
+      scoring_dice_value_occurrence = [0] * self.NB_DICE_SIDE
 
       bonus_score = 0
       side_value_index = 0
@@ -64,17 +68,17 @@ class Algo:
 
           side_value_occurrence = dice_value_occurrence[side_value_index]
 
-          nb_of_bonus = side_value_occurrence // THRESHOLD_BONUS
+          nb_of_bonus = side_value_occurrence // self.THRESHOLD_BONUS
           if nb_of_bonus > 0:
               if side_value_index == 0:
-                  bonus_multiplier = ACE_BONUS_MULTIPLIER
+                  bonus_multiplier = self.ACE_BONUS_MULTIPLIER
               else:
-                  bonus_multiplier = STD_BONUS_MULTIPLIER
+                  bonus_multiplier = self.STD_BONUS_MULTIPLIER
               bonus_score += nb_of_bonus * bonus_multiplier * (side_value_index + 1)
 
               # update the occurrence list after bonus rules for scoring dices and non scoring dices
-              dice_value_occurrence[side_value_index] %= THRESHOLD_BONUS
-              scoring_dice_value_occurrence[side_value_index] = nb_of_bonus * THRESHOLD_BONUS
+              dice_value_occurrence[side_value_index] %= self.THRESHOLD_BONUS
+              scoring_dice_value_occurrence[side_value_index] = nb_of_bonus * self.THRESHOLD_BONUS
 
           side_value_index += 1
 
@@ -96,13 +100,13 @@ class Algo:
                           - 'scoring_dice'            occurrence list of scoring dice value
                           - 'non_scoring_dice'        occurrence list of non scoring dice value
       """
-      scoring_dice_value_occurrence = [0] * NB_DICE_SIDE
+      scoring_dice_value_occurrence = [0] * self.NB_DICE_SIDE
 
       standard_score = 0
       scoring_dice_value_index = 0
-      while scoring_dice_value_index < len(SCORING_DICE_VALUE):
-          scoring_value = SCORING_DICE_VALUE[scoring_dice_value_index]
-          scoring_multiplier = SCORING_MULTIPLIER[scoring_dice_value_index]
+      while scoring_dice_value_index < len(self.SCORING_DICE_VALUE):
+          scoring_value = self.SCORING_DICE_VALUE[scoring_dice_value_index]
+          scoring_multiplier = self.SCORING_MULTIPLIER[scoring_dice_value_index]
 
           standard_score += dice_value_occurrence[scoring_value - 1] * scoring_multiplier
 
@@ -139,9 +143,9 @@ class Algo:
       non_scoring_dice_from_std = analyse_score_std['non_scoring_dice']
 
       # the occurrence list of scoring dice value is the sum from scoring dice by bonus and standard rules
-      scoring_dice_value_occurrence = [0] * NB_DICE_SIDE
+      scoring_dice_value_occurrence = [0] * self.NB_DICE_SIDE
       side_value_index = 0
-      while side_value_index < NB_DICE_SIDE:
+      while side_value_index < self.NB_DICE_SIDE:
           scoring_dice_value_occurrence[side_value_index] = scoring_dice_from_bonus[side_value_index] + \
                                                             scoring_dice_from_std[side_value_index]
           side_value_index += 1
@@ -172,7 +176,7 @@ class Algo:
       """
 
       # turn start with the full set of dices
-      remaining_dice_to_roll = DEFAULT_DICES_NB
+      remaining_dice_to_roll = self.DEFAULT_DICES_NB
       roll_again = True
 
       turn_score = 0
@@ -196,7 +200,7 @@ class Algo:
 
               # In case of scoring roll and no remaining dice to roll the player can roll again the full set of dices
               if remaining_dice_to_roll == 0:
-                  remaining_dice_to_roll = DEFAULT_DICES_NB
+                  remaining_dice_to_roll = self.DEFAULT_DICES_NB
                   print('-->Full Roll')
 
               print('Roll Score=', roll_score['score'], 'potential turn score=', turn_score, 'remaining dice=',
@@ -221,12 +225,12 @@ class Algo:
 
   def multiplayerGame(self):
       turn_number = 1
-      score_board = [0]*NUMBER_OF_PLAYERS
-      while turn_number <= NUMBER_OF_TURNS :
+      score_board = [0] * self.NUMBER_OF_PLAYERS
+      while turn_number <= self.NUMBER_OF_TURNS :
           print(turn_number)
           player_id = 0
-          while player_id < NUMBER_OF_PLAYERS :
-              print(PLAYERS[player_id] + "'s turn")
+          while player_id < self.NUMBER_OF_PLAYERS :
+              print(self.PLAYERS[player_id] + "'s turn")
               turn_score = self.game_turn(True)
               score_board[player_id] += turn_score
               print(score_board)
