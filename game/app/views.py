@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.template import loader
 from django.http import HttpResponse
 from .algo import Algo
+import random
 
 from .form import PlayerForm
 
@@ -9,6 +10,7 @@ def app(request):
     form_disabled = False
     message = ""
     algo = Algo()
+    start = algo.multiplayerGame()
    
     users_list = request.session.get('users_list', [])
 
