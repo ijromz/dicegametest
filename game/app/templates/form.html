@@ -16,6 +16,11 @@
     <input type="submit" value="Reset">
 </form>
 
+<form method="POST" action="{% url 'play' %}">
+    {% csrf_token %}
+    <input type="submit" value="Play">
+</form>
+
 {% if users_list %}
 <h2>Les joueurs :</h2>
   <ul>
@@ -25,7 +30,5 @@
   </ul>
 {% endif %}
 
-
-{{start}}
 </body>
 </html>

@@ -10,7 +10,6 @@ def app(request):
     form_disabled = False
     message = ""
     algo = Algo()
-    start = algo.multiplayerGame()
    
     users_list = request.session.get('users_list', [])
 
@@ -46,3 +45,9 @@ def app(request):
 def reset(request):
     request.session.clear()
     return redirect('app')
+
+def play(request):
+    algo = Algo()
+    start = algo.multiplayerGame()
+    context = {'algo' : algo}
+    return render(request, 'form.html', context)
