@@ -13,8 +13,6 @@ import random
 #   3 ace is scoring 1000 pts
 #   3 time the same dice value is scoring 100 pts x the dice value
 
-
-
 class Algo:
   def __init__(self):
     self.NB_DICE_SIDE = 6  # Nb of side of the Dices
@@ -27,8 +25,6 @@ class Algo:
 
     self.DEFAULT_DICES_NB = 5  # Number of dices by default in the set
 
-    self.PLAYERS = []
-    self.NUMBER_OF_PLAYERS = len(self.PLAYERS)
     self.NUMBER_OF_TURNS = 3
 
 
@@ -223,14 +219,15 @@ class Algo:
 
       return turn_score
 
-  def multiplayerGame(self):
+  def multiplayerGame(self, players):
       turn_number = 1
-      score_board = [0] * self.NUMBER_OF_PLAYERS
+      NUMBER_OF_PLAYERS = len(players)
+      score_board = [0] * NUMBER_OF_PLAYERS
       while turn_number <= self.NUMBER_OF_TURNS :
           print(turn_number)
           player_id = 0
-          while player_id < self.NUMBER_OF_PLAYERS :
-              print(self.PLAYERS[player_id] + "'s turn")
+          while player_id < NUMBER_OF_PLAYERS :
+              print(players[player_id] + "'s turn")
               turn_score = self.game_turn(True)
               score_board[player_id] += turn_score
               print(score_board)

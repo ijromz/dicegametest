@@ -23,7 +23,7 @@ def app(request):
             # disable the form if the limit is reached or exceeded
             form_disabled = len(users_list) >= 5
             form = PlayerForm()
-            algo.PLAYERS = users_list
+
         else:
             form_disabled = False
             message = "Le formulaire est invalide"
@@ -31,6 +31,9 @@ def app(request):
         form_disabled = False
         form = PlayerForm()
         message = ""
+
+    # if request.get_full_path == "/play/":
+    #   start = algo.multiplayerGame(users_list)
 
     context = {
         'form_key': form,
@@ -48,6 +51,5 @@ def reset(request):
 
 def play(request):
     algo = Algo()
-    start = algo.multiplayerGame()
-    context = {'algo' : algo}
-    return render(request, 'form.html', context)
+    # start = algo.multiplayerGame(users_list)
+    return redirect('app')
