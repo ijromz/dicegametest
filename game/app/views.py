@@ -32,9 +32,6 @@ def app(request):
         form = PlayerForm()
         message = ""
 
-    # playy == True
-    # start = algo.multiplayerGame(users_list)
-
     context = {
         'form_key': form,
         'users_list': users_list[:5],  # limit the list to 5 names maximum
