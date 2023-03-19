@@ -37,7 +37,7 @@ def app(request):
         'users_list': users_list[:5],  # limit the list to 5 names maximum
         'form_disabled': form_disabled,
         'message': message,
-        'algo' : algo
+        'algo' : algo,
     }
     return render(request, 'form.html', context)
 
@@ -50,4 +50,8 @@ def play(request):
     algo = Algo()
     users_list = request.session.get('users_list')
     start = algo.multiplayerGame(users_list)
-    return redirect('app')
+    context = {
+        'gameQuote' : algo.gameQuote
+    }
+    # return redirect('app')
+    return render(request, 'form.html', context)

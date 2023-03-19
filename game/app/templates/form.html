@@ -30,5 +30,15 @@
   </ul>
 {% endif %}
 
+
+{% if gameQuote %}
+<h2>Game is on :</h2>
+<ul>
+  {% for quote in gameQuote %}
+    <li>{{ quote }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
 </body>
 </html>

@@ -26,6 +26,8 @@ class Algo:
     self.DEFAULT_DICES_NB = 5  # Number of dices by default in the set
 
     self.NUMBER_OF_TURNS = 3
+    self.quote = ''
+    self.gameQuote = []
 
 
   def roll_dice_set(self, nb_dice_to_roll):
@@ -184,8 +186,9 @@ class Algo:
 
           if roll_score['score'] == 0:
               # lost roll
-
-              print('\n-->', 'got zero point ', turn_score, 'lost points\n')
+              self.quote = '\n-->', 'got zero point ', turn_score, 'lost points\n'
+              self.gameQuote.append(self.quote)
+              print(self.quote)
 
               roll_again = False
               turn_score = 0
@@ -197,10 +200,13 @@ class Algo:
               # In case of scoring roll and no remaining dice to roll the player can roll again the full set of dices
               if remaining_dice_to_roll == 0:
                   remaining_dice_to_roll = self.DEFAULT_DICES_NB
-                  print('-->Full Roll')
+                  self.quote = '-->Full Roll'
+                  self.gameQuote.append(self.quote)
+                  print(self.quote)
 
-              print('Roll Score=', roll_score['score'], 'potential turn score=', turn_score, 'remaining dice=',
-                    remaining_dice_to_roll)
+              self.quote = 'Roll Score=', roll_score['score'], 'potential turn score=', turn_score, 'remaining dice=', remaining_dice_to_roll
+              self.gameQuote.append(self.quote)
+              print(self.quote)
 
               # choice to roll again or stop and take roll score
               if is_interactive:
@@ -213,7 +219,9 @@ class Algo:
               if stop_turn:
                   # stop turn and take roll score
 
-                  print('\n-->', 'Scoring turn with', turn_score, 'points\n')
+                  self.quote = '\n-->', 'Scoring turn with', str(turn_score), 'points\n'
+                  self.gameQuote.append(self.quote)
+                  print(self.quote)
 
                   roll_again = False
 
@@ -227,9 +235,16 @@ class Algo:
           print(turn_number)
           player_id = 0
           while player_id < NUMBER_OF_PLAYERS :
-              print(players[player_id] + "'s turn")
+              self.quote = players[player_id] + "'s turn"
+              self.gameQuote.append(self.quote)
+              print(self.quote)
               turn_score = self.game_turn(True)
               score_board[player_id] += turn_score
-              print(score_board)
+              self.quote = score_board
+              self.gameQuote.append(self.quote)
+              print(self.quote)
               player_id += 1
           turn_number += 1
+    #   self.gameQuote = []
+    #   print(self.gameQuote)
+      
