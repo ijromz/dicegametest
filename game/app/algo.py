@@ -233,5 +233,3 @@ class Algo:
               print(score_board)
               player_id += 1
           turn_number += 1
-
-  # multiplayerGame()

@@ -32,8 +32,8 @@ def app(request):
         form = PlayerForm()
         message = ""
 
-    # if request.get_full_path == "/play/":
-    #   start = algo.multiplayerGame(users_list)
+    # playy == True
+    # start = algo.multiplayerGame(users_list)
 
     context = {
         'form_key': form,
@@ -51,5 +51,6 @@ def reset(request):
 
 def play(request):
     algo = Algo()
-    # start = algo.multiplayerGame(users_list)
+    users_list = request.session.get('users_list')
+    start = algo.multiplayerGame(users_list)
     return redirect('app')
